@@ -344,6 +344,7 @@ namespace LEDMatrix {
         //% weight=95 blockGap=8
         //% parts="ledmatrix"
         //% advanced=true
+        //% autoUpdate.shadow="toggleOnOff"
         setAutoUpdate(autoUpdate: boolean) {
             this.autoUpdate = autoUpdate;
         }
