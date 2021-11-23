@@ -1,15 +1,14 @@
 {
     "name": "pxt-ledmatrix",
-    "version": "0.0.0",
-    "description": "",
+    "version": "0.1.0-beta",
+    "description": "microbit extension for 2D ws2812b-led/neopixel matrices",
+    "license": "MIT",
     "dependencies": {
         "core": "*",
-        "radio": "*",
-        "microphone": "*"
+        "ws2812b": "github:microsoft/pxt-ws2812b#v0.1.1"
     },
     "files": [
         "README.md",
-        "main.blocks",
         "main.ts"
     ],
     "testFiles": [
@@ -23,5 +22,5 @@
     "supportedTargets": [
         "microbit"
     ],
-    "preferredEditor": "blocksprj"
+    "preferredEditor": "tsprj"
 }
