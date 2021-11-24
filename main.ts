@@ -222,7 +222,7 @@ namespace LEDMatrix {
         clear() {
             this.buffer.fill(0);
             if (this.autoUpdate) {
-                ws2812b.sendBuffer(this.buffer, this.pin);
+                light.sendWS2812Buffer(this.buffer, this.pin);
             }
             this.colorMatrix = [];
             for (let x = 0; x < this.matrixWidth; x++) {
@@ -357,7 +357,7 @@ namespace LEDMatrix {
         //% parts="ledmatrix"
         //% advanced=true
         update() {
-            ws2812b.sendBuffer(this.buffer, this.pin);
+            light.sendWS2812Buffer(this.buffer,this.pin);
         }
 
 

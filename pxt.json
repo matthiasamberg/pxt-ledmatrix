@@ -4,8 +4,7 @@
     "description": "microbit extension for 2D ws2812b-led/neopixel matrices",
     "license": "MIT",
     "dependencies": {
-        "core": "*",
-        "ws2812b": "github:microsoft/pxt-ws2812b#v0.1.1"
+        "core": "*"
     },
     "files": [
         "README.md",
