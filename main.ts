@@ -59,9 +59,11 @@ namespace LEDMatrix {
         // adjustedBrightnessCurve: the whole trueBrightnessCurve multiplied by the brightness (percentage)
         private adjustedBrightnessCurve: number[];
 
-        //adjusted colors tries to adjust relative brightness of the RGBW leds
+        //tries to adjust relative brightness of the RGBW leds
         //so that the leds reflect real RGB monitor perceived color
-        private adjustedColors:boolean; 
+        private adjustColors:boolean; 
+
+        // variables that define the physical LED matrix's properties
         private firstLEDPosition: FirstLEDPosition;
         private ledDirection: LEDDirection;
         private ledRowSetup: LEDRowSetup;
@@ -73,7 +75,7 @@ namespace LEDMatrix {
             this.matrixWidth = matrixWidth >> 0;
             this.matrixHeight = matrixHeight >> 0;
             this.ledColorMode = mode;
-            this.adjustedColors=true;
+            this.adjustColors=true;
 
             //is properly set in this.setBrightness call below
             this.brightness = 0;
@@ -289,7 +291,7 @@ namespace LEDMatrix {
         private setBufferRGB(x: number, y: number, red: number, green: number, blue: number): void {
             let byteOffset = this.getOffset(x, y) * this.stride;
 
-            if (this.adjustedColors) {
+            if (this.adjustColors) {
                 //every color channel gets it's brightness adjustment individually 
                 //should better reflect true RGB colors
                 red = this.adjustedBrightnessCurve[red];
@@ -300,9 +302,9 @@ namespace LEDMatrix {
                 // half the brightness setting should create a led that is perceived half as bright
                 // without this half the brightness will half the power consumption but is perceived
                 // as only minimally less bright (not half as bright)
-                red = (red * this.adjustedBrightness) >> 8;
-                green = (green * this.adjustedBrightness) >> 8;
-                blue = (blue * this.adjustedBrightness) >> 8;
+                red = (red * this.brightness) >> 8;
+                green = (green * this.brightness) >> 8;
+                blue = (blue * this.brightness) >> 8;
             }
 
             if (this.ledColorMode === LEDColorMode.RGB) {
@@ -321,11 +323,11 @@ namespace LEDMatrix {
             }
             let byteOffset = this.getOffset(x, y) * this.stride;
 
-            if (this.adjustedColors) {
+            if (this.adjustColors) {
                 //see comments in setBufferRGB
                 white = this.adjustedBrightnessCurve[white];
             } else {
-                white = (white * this.adjustedBrightness) >> 8;
+                white = (white * this.brightness) >> 8;
             }
             this.buffer[byteOffset + 3] = white;
         }
@@ -394,6 +396,22 @@ namespace LEDMatrix {
         }
 
         /*
+        * Adjust power to the LEDs to emulate true RGB color
+        * If this is enabled, the LEDs should show colors as seen on a computer screen.
+        * This is created by adjusting each RGB channel's brightness individually to human eye perception
+        * If this is disabled, the RGB Values (0-255) indicate the power consumption of a led (a value of
+        * 128 is 50% of the power consumption (but is perceived as only slightly dimmer)).
+        */
+        //% blockId="ledmatrix_set_color_adjustment" block="%ledMatrix| emulate true RGB Color %enabled "
+        //% weight=95 blockGap=8
+        //% parts="ledmatrix"
+        //% advanced=true
+        //% enabled.shadow="toggleOnOff"
+        setColorAdjustment(enabled: boolean) {
+            this.adjustColors = enabled;
+        }
+
+        /*
         * Updates the LED matrix to update updated colors
         */
         //% blockId="ledmatrix_update" block="%ledMatrix| update "
@@ -403,58 +421,6 @@ namespace LEDMatrix {
         update() {
             light.sendWS2812Buffer(this.buffer,this.pin);
         }
-
-        /*
-        * Updates the LED matrix to update updated colors
-        */
-        //% blockId="ledmatrix_test_pattern" block="%ledMatrix| test  "
-        //% weight=85 blockGap=8
-        //% parts="ledmatrix"
-        //% advanced=true
-        testPattern() {
-            let r=255/2
-            let g=128/2
-            let b=50/2
-            let x=0
-            this.setAutoUpdate(false);
-            this.pattern1(x, r, g, b);
-            this.pattern2(++x, r, g, b);
-            this.pattern3(++x, r, g, b);
-            this.pattern1(++x, r, g, b);
-            this.pattern2(++x, r, g, b);
-            this.pattern3(++x, r, g, b);
-            this.update();
-        }
-
-        pattern1(x: number, r: number, g: number, b: number) {
-
-            for (let y = 0; y < 8; y++) {
-                this.setLEDColor(x, y, packRGB(r, g, b))
-
-                r /= 2;
-                g /= 2;
-                b /= 2;
-            }
-        }
-
-        pattern2(x:number,r:number,g:number,b:number){
-            let brightness:number=255;
-            for (let y = 0; y < 8; y++) {
-                this.setLEDColor(x, y, packRGB((this.trueBrightnessCurve[brightness] * r)>>8, (this.trueBrightnessCurve[brightness] * g)>>8, (this.trueBrightnessCurve[brightness] * b)>>8))
-                brightness = (brightness*0.8)>>0;
-            }
-        }
-
-        pattern3(x: number, r: number, g: number, b: number) {
-
-            for (let y = 0; y < 8; y++) {
-                this.setLEDColor(x, y, packRGB(this.trueBrightnessCurve[r], this.trueBrightnessCurve[g] , this.trueBrightnessCurve[b] ))
-                r =(r*0.8)>>0;
-                g = (g * 0.8) >> 0;
-                b = (b * 0.8) >> 0;
-            }
-        }
-
 
         /**
          * Get the current led  color at coordinates x,y 
