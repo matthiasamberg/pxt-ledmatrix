@@ -176,6 +176,7 @@ namespace LEDMatrix {
         //% blockId="ledmatrix_fill_matrix" block="%ledMatrix|fill with color %rgb_color=ledmatrix_rgb"
         //% weight=65 blockGap=8
         //% parts="ledmatrix"
+        //% advanced=true
         fillMatrix(rgb_color: number) {
             for (let x = 0; x < this.matrixWidth;x++) {
                 for (let y = 0; y < this.matrixHeight;y++) {
@@ -242,6 +243,7 @@ namespace LEDMatrix {
         //% blockId="ledmatrix_clear" block="%ledMatrix|clear"
         //% weight=90 blockGap=8
         //% parts="ledmatrix"
+        //% advanced=true
         clear() {
             this.buffer.fill(0);
             if (this.autoUpdate) {
@@ -431,6 +433,7 @@ namespace LEDMatrix {
         //% blockId="ledmatrix_get_led_color" block="%ledMatrix|get the color of a LED at coordinate x:%x y:%y"
         //% weight=85 blockGap=8
         //% parts="ledmatrix"
+        //% advanced=true
         getLEDColor(x: number, y: number): number {
             if (x < 0 || x >= this.matrixWidth || y < 0 || y >= this.matrixHeight) {
                 return 0;
@@ -447,6 +450,7 @@ namespace LEDMatrix {
         //% blockId="ledmatrix_get_white_color" block="%ledMatrix|get the white brightness of a LED at coordinate x:%x y:%y"
         //% weight=83 blockGap=8
         //% parts="ledmatrix"
+        //% advanced=true
         getWhiteColor(x: number, y: number): number {
             if (x < 0 || x >= this.matrixWidth || y < 0 || y >= this.matrixHeight) {
                 return 0;

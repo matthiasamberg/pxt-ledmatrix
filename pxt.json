@@ -1,6 +1,6 @@
 {
     "name": "pxt-ledmatrix",
-    "version": "0.1.0-beta",
+    "version": "0.1.0",
     "description": "microbit extension for 2D ws2812b-led/neopixel matrices",
     "license": "MIT",
     "dependencies": {
