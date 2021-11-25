@@ -532,11 +532,11 @@ namespace LEDMatrix {
      *
      */
     //% weight=93
-    //% blockId="ledmatrix_hsv" block="hsv-color: hue %hue|saturation %saturation|luminance %luminance"
+    //% blockId="ledmatrix_hs" block="hsl-color: hue %hue|saturation %saturation|luminance %luminance"
     //% hue.max=360 hue.min=0 hue.defl=128
     //% saturation.max=100 saturation.min=0 saturation.defl=100
     //% luminance.max=100 luminance.min=0 luminance.defl=50
-    export function hsv(hue: number, saturation: number, luminance: number): number {
+    export function hsl(hue: number, saturation: number, luminance: number): number {
         let h = hue;
         let s = saturation/100.0;
         let l = luminance/100.0;
