@@ -124,6 +124,7 @@ namespace LEDMatrix {
                 155, 158, 161, 165, 169, 172, 176, 180,
                 184, 188, 192, 196, 201, 205, 210, 214,
                 219, 224, 229, 234, 239, 244, 250, 255];
+            this.adjustedBrightnessCurve=[]
             this.setBrightness(75);
         }
 
