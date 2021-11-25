@@ -30,7 +30,7 @@ enum LEDRowSetup {
     zigZag = 2
 }
 
-//% weight=20 color=#cc93ed icon="\uf2a1"
+//% weight=20 color=#7733ff icon="\uf2a1"
 namespace LEDMatrix {
 
     /**
