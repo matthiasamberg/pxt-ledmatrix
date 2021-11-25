@@ -540,7 +540,6 @@ namespace LEDMatrix {
         let h = hue;
         let s = saturation/100.0;
         let l = luminance/100.0;
-        console.log(h+" "+s+" "+l);
         let c = (1 - Math.abs(2 * l - 1)) * s;
         let hp = h / 60.0;
         let x = c * (1 - Math.abs((hp % 2) - 1));
@@ -555,7 +554,6 @@ namespace LEDMatrix {
         let m = l - c * 0.5;
 
         let rgb2=packRGB(Math.round(255 * (rgb1[0] + m)), Math.round(255 * (rgb1[1] + m)), Math.round(255 * (rgb1[2] + m)));
-        console.log(unpackR(rgb2)+" "+unpackG(rgb2)+" "+unpackB(rgb2));
         return rgb2
     }
 
