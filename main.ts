@@ -160,7 +160,7 @@ namespace LEDMatrix {
                 return;
             }
             this.colorMatrix[x][y] = rgb_color;
-            this.setBufferRGB(x, y, unpackR(rgb_color), unpackG(rgb_color), unpackB(rgb_color));
+            this.setRGBBuffer(x, y, unpackR(rgb_color), unpackG(rgb_color), unpackB(rgb_color));
             if (this.autoUpdate) {
                 this.update();
             }
@@ -181,7 +181,7 @@ namespace LEDMatrix {
             for (let x = 0; x < this.matrixWidth;x++) {
                 for (let y = 0; y < this.matrixHeight;y++) {
                     this.colorMatrix[x][y] = rgb_color;
-                    this.setBufferRGB(x, y, unpackR(rgb_color), unpackG(rgb_color), unpackB(rgb_color));
+                    this.setRGBBuffer(x, y, unpackR(rgb_color), unpackG(rgb_color), unpackB(rgb_color));
                 }
             }
 
@@ -276,7 +276,7 @@ namespace LEDMatrix {
             for (let x3 = 0; x3 < this.matrixWidth; x3++) {
                 for (let y3 = 0; y3 < this.matrixHeight; y3++) {
                     let rgb_color: number = this.colorMatrix[x3][y3];
-                    this.setBufferRGB(x3, y3, unpackR(rgb_color), unpackG(rgb_color), unpackB(rgb_color));
+                    this.setRGBBuffer(x3, y3, unpackR(rgb_color), unpackG(rgb_color), unpackB(rgb_color));
                 }
             }
 
@@ -290,9 +290,9 @@ namespace LEDMatrix {
             this.update();
         }
 
-        private setBufferRGB(x: number, y: number, red: number, green: number, blue: number): void {
+        private setRGBBuffer(x: number, y: number, red: number, green: number, blue: number): void {
             let byteOffset = this.getOffset(x, y) * this.stride;
-
+            
             if (this.adjustColors) {
                 //every color channel gets it's brightness adjustment individually 
                 //should better reflect true RGB colors
