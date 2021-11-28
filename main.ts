@@ -54,14 +54,14 @@ namespace LEDMatrix {
         private adjustedBrightness: number;
 
         // the brightness curve to adjust for perceived brightness
-        private trueBrightnessCurve: number[]; 
+        private trueBrightnessCurve: number[];
 
         // adjustedBrightnessCurve: the whole trueBrightnessCurve multiplied by the brightness (percentage)
         private adjustedBrightnessCurve: number[];
 
         //tries to adjust relative brightness of the RGBW leds
         //so that the leds reflect real RGB monitor perceived color
-        private adjustColors:boolean; 
+        private adjustColors: boolean;
 
         // variables that define the physical LED matrix's properties
         private firstLEDPosition: FirstLEDPosition;
@@ -75,7 +75,7 @@ namespace LEDMatrix {
             this.matrixWidth = matrixWidth >> 0;
             this.matrixHeight = matrixHeight >> 0;
             this.ledColorMode = mode;
-            this.adjustColors=true;
+            this.adjustColors = true;
 
             //is properly set in this.setBrightness call below
             this.brightness = 0;
@@ -126,7 +126,7 @@ namespace LEDMatrix {
                 155, 158, 161, 165, 169, 172, 176, 180,
                 184, 188, 192, 196, 201, 205, 210, 214,
                 219, 224, 229, 234, 239, 244, 250, 255];
-            this.adjustedBrightnessCurve=[]
+            this.adjustedBrightnessCurve = []
             this.setBrightness(75);
         }
 
@@ -178,8 +178,8 @@ namespace LEDMatrix {
         //% parts="ledmatrix"
         //% advanced=true
         fillMatrix(rgb_color: number) {
-            for (let x = 0; x < this.matrixWidth;x++) {
-                for (let y = 0; y < this.matrixHeight;y++) {
+            for (let x = 0; x < this.matrixWidth; x++) {
+                for (let y = 0; y < this.matrixHeight; y++) {
                     this.colorMatrix[x][y] = rgb_color;
                     this.setRGBBuffer(x, y, unpackR(rgb_color), unpackG(rgb_color), unpackB(rgb_color));
                 }
@@ -224,12 +224,12 @@ namespace LEDMatrix {
             this.brightness = Math.max(Math.min(100, brightness >> 0), 0);
             // Math.pow does not work with floats on the actual micro:bit hence the LUT
             //this.adjustedBrightness = (Math.pow(2.0, ((this.brightness + 1) / 32)) - 1);
-            this.adjustedBrightness = this.trueBrightnessCurve[(this.brightness*2.55)>>0];
+            this.adjustedBrightness = this.trueBrightnessCurve[(this.brightness * 2.55) >> 0];
 
             //update adjustedBrightnessCurve
-            let brightnessFactor = this.brightness/100;
-            for (let i=0;i<256;i++) {
-                this.adjustedBrightnessCurve[i] = (this.trueBrightnessCurve[i] * brightnessFactor)>>0;
+            let brightnessFactor = this.brightness / 100;
+            for (let i = 0; i < 256; i++) {
+                this.adjustedBrightnessCurve[i] = (this.trueBrightnessCurve[i] * brightnessFactor) >> 0;
             }
 
             if (this.autoUpdate) {
@@ -292,7 +292,7 @@ namespace LEDMatrix {
 
         private setRGBBuffer(x: number, y: number, red: number, green: number, blue: number): void {
             let byteOffset = this.getOffset(x, y) * this.stride;
-            
+
             if (this.adjustColors) {
                 //every color channel gets it's brightness adjustment individually 
                 //should better reflect true RGB colors
@@ -421,7 +421,7 @@ namespace LEDMatrix {
         //% parts="ledmatrix"
         //% advanced=true
         update() {
-            light.sendWS2812Buffer(this.buffer,this.pin);
+            light.sendWS2812Buffer(this.buffer, this.pin);
         }
 
         /**
@@ -458,6 +458,34 @@ namespace LEDMatrix {
             return this.whiteMatrix[x][y];
         }
 
+        /*
+        * Updates the LED matrix to update updated colors
+        */
+        //% blockId="ledmatrix_test_pattern" block="%ledMatrix| show test pattern "
+        //% weight=99 blockGap=8
+        //% parts="ledmatrix"
+        testPatternx() {
+            this.setLEDColor(0, 0, 0xAAAAAA);
+            this.setLEDColor(1, 0, 0x900000);
+            this.setLEDColor(2, 0, 0x900000);
+            this.update();
+            for (let j = 0; j < 10; j++) {
+                for (let y = 0; y < this.matrixHeight; y++) {
+                    let x=0;
+                    if (y==0) {
+                        x=3;
+                    }
+                    for (; x < this.matrixWidth; x++) {
+                        this.setLEDColor(x, y, 0x666666);
+                        this.update();
+                        basic.pause(60)
+                        this.setLEDColor(x, y, 0);
+                        this.update();
+                    }
+                }
+            }
+        }
+
     }
 
     /**
@@ -479,33 +507,7 @@ namespace LEDMatrix {
         return matrix;
     }
 
-    /**
-     * Test pattern for your Led Matrix
-     * @param pin the pin where the led matrix is connected.
-     */
-    //% blockId="ledmatrix_test_pattern_led_matrix" block="show a test pattern on the LED Matrix at pin %pin using color mode %mode"
-    //% weight=110 blockGap=8
-    export function testPatternLEDMatrix(pin: DigitalPin, mode: LEDColorMode) {
-        basic.pause(300)
-        let striplength = 100;
-        let matrix = create(pin, striplength, 1, mode);
-        matrix.setLEDColor(0, 0, 0xAAAAAA);
-        matrix.setLEDColor(1, 0, 0x900000);
-        matrix.setLEDColor(2, 0, 0x900000);
-        matrix.update();
-        for (let j = 0; j < 10; j++) {
-            for (let i = 3; i < striplength; i++) {
-                matrix.setLEDColor
-                    (i, 0, 0x666666);
-                matrix.update();
-                basic.pause(60)
-                matrix.setLEDColor
-                    (i, 0, 0);
-                matrix.update();
-            }
-        }
 
-    }
 
 
 
@@ -538,8 +540,8 @@ namespace LEDMatrix {
     //% luminance.max=100 luminance.min=0 luminance.defl=50
     export function hsl(hue: number, saturation: number, luminance: number): number {
         let h = hue;
-        let s = saturation/100.0;
-        let l = luminance/100.0;
+        let s = saturation / 100.0;
+        let l = luminance / 100.0;
         let c = (1 - Math.abs(2 * l - 1)) * s;
         let hp = h / 60.0;
         let x = c * (1 - Math.abs((hp % 2) - 1));
@@ -553,7 +555,7 @@ namespace LEDMatrix {
         else if (hp <= 6) rgb1 = [c, 0, x];
         let m = l - c * 0.5;
 
-        let rgb2=packRGB(Math.round(255 * (rgb1[0] + m)), Math.round(255 * (rgb1[1] + m)), Math.round(255 * (rgb1[2] + m)));
+        let rgb2 = packRGB(Math.round(255 * (rgb1[0] + m)), Math.round(255 * (rgb1[1] + m)), Math.round(255 * (rgb1[2] + m)));
         return rgb2
     }
 
