@@ -32,28 +32,37 @@ By default the LED Matrix gets updated after you update/set the color of an LED 
 
 ### Setup / Detect the physical layout
 Setup and attach your LED-matrix. 
+Since LEDs matrices can have different physical setups. It is important to tell the makecode Editor some properties of your LED-Matrix.
+Use [this code snippet](https://makecode.microbit.org/_cTu7bibW4cPg) to configure your matrix correctly:
 
-We need to figure out your physical matrix layout:
-* Use the 'show a testpattern on the LED-matrix' block in the makecode editor and run it on your micro:bit.
+Run the above snippet on your micro:bit.
 Some LEDs should now light up, if not, you may need to check your connectors (or if you set the right pin in your block).
-* Starting from a corner, there should be three LEDs constantly glowing. The one in the corner in white and then immediately adjacent two red LEDs. If the LEDs show a different color, you need to change the color mode in your 'testpattern' block. It's one of
+* In the first block ('set ledmatrix to...') set the width and height (in number of LEDs) correctly so it matches your physical LED-Matrix.
+
+* Setup the color setting:
+There are three different color modes you can choose from:
+The two LEDs right next to the corner LEDs should constantly show red. If they don't your color mode is wrong. Try one of the other two color modes. The available formats are:
   * RGB (GRB Format)
   * RGB+W (GRBW Format)
   * RGB (RGB Format)
-* There is one white LED glowing in one of the matrix's corners. Make a note of the corner. The 'first LED corner' is either 
+
+* Now you should have a white LED in a corner of your LED-Matrix and two red LEDs constantly lit. You must specify which corner that white LED is in. In the 'physical layout' block, set the 'first LED corner' parameter to one of the following and send the program to the microb:bit again:
   * top-left
   * top-right
   * bottom-left 
   * bottom-right
+Now the white led should be in the top-left corner.
+
 * There should be a pattern of LEDs blinking. If they start out horizontally (or the seem to move horizontally more often), then the LED direction is horizontal, otherwise vertical.
 LED direction can be:
   * vertically
   * horizontally
-* If the LED pattern zig-zags back and forth the row/columns continuation is zig-zag. If the LEDs always start on one side and move across, the continuation is progressive:
+
+* If the LED pattern zig-zags back and forth the row/columns continuation property is 'zig-zag'. If the LEDs always start on one side and move across, the continuation is progressive:
   * zig-zag
   * progressive
 
-You can now use this information to setup your matrix with the 'physical layout' block.
+Once you setup the color mode, first LED corner, LED direction and continuation properties correctly, you are ready to use your LED-Matrix. You can now remove the 'test pattern' block and write your programs.
 
 ### Currently Missing Features / TODOs
 * Simulator support
