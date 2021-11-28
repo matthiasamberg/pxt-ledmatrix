@@ -13,23 +13,6 @@
 * supports LED Strips (it's just a matrix with a height of 1)
 * test pattern to help setup the physical matrix
 
-## Usage
-See the [example code](https://makecode.microbit.org/_42jUPR7pDJDu) in the makecode editor.
-* If your LED colors seem wrong then your LED strip might have a different color layout (see Setup below)
-* The 'x' coordinate is the horizontal coordinate (increases to the right)
-* The 'y' coordinate is the vertical coordinate (increases downwards).
-
-So the topmost-leftmost LED should have coordinates x=0 and y=0. 
-
-The LED at the bottom right should have coordinates x=(matrixwidth-1) and y=(matrixheight-1).
-
-If the coordinates produce unexpected results, you may need to setup your physical matrix with the 'physical layout' block (see Setup below).
-
-### Advanced Usage
-Auto Update
-
-By default the LED Matrix gets updated after you update/set the color of an LED or any other operation (set brightness,...). This behaviour is simple but slow. Use the 'auto update LED matrix' block to disable this feature. However then you must use the 'update' Block whenever you want your changes pushed to the physical LEDs.
-
 ### Setup / Detect the physical layout
 Setup and attach your LED-matrix. 
 Since LEDs matrices can have different physical setups. It is important to tell the makecode Editor some properties of your LED-Matrix.
@@ -62,7 +45,27 @@ LED direction can be:
   * zig-zag
   * progressive
 
+Now the light of the 'moving' testpattern should start in the top left corner and move horizontally to the reight, once it's at the end it should start on the left side again, one row down.
 Once you setup the color mode, first LED corner, LED direction and continuation properties correctly, you are ready to use your LED-Matrix. You can now remove the 'test pattern' block and write your programs.
+
+
+## Usage
+See the [example code](https://makecode.microbit.org/_42jUPR7pDJDu) in the makecode editor.
+* If your LED colors seem wrong then your LED strip might have a different color layout (see Setup above.)
+* The 'x' coordinate is the horizontal coordinate (increases to the right)
+* The 'y' coordinate is the vertical coordinate (increases downwards).
+
+So the topmost-leftmost LED should have coordinates x=0 and y=0. 
+
+The LED at the bottom right should have coordinates x=(matrixwidth-1) and y=(matrixheight-1).
+
+If the coordinates produce unexpected results, you may need to setup your physical matrix with the 'physical layout' block (see Setup above).
+
+### Advanced Usage
+Auto Update
+
+By default the LED Matrix gets updated after you update/set the color of an LED or any other operation (set brightness,...). This behaviour is simple but slow. Use the 'auto update LED matrix' block to disable this feature. However then you must use the 'update' Block whenever you want your changes pushed to the physical LEDs.
+
 
 ### Currently Missing Features / TODOs
 * Simulator support
