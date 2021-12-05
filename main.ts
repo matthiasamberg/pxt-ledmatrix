@@ -231,10 +231,8 @@ namespace LEDMatrix {
             for (let i = 0; i < 256; i++) {
                 this.adjustedBrightnessCurve[i] = (this.trueBrightnessCurve[i] * brightnessFactor) >> 0;
             }
-
-            if (this.autoUpdate) {
-                this.redraw();
-            }
+            this.redraw();
+            
         }
 
         /**
@@ -287,7 +285,10 @@ namespace LEDMatrix {
                     }
                 }
             }
-            this.update();
+            
+            if (this.autoUpdate) {
+                this.update();
+            }
         }
 
         private setRGBBuffer(x: number, y: number, red: number, green: number, blue: number): void {
