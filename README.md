@@ -7,7 +7,7 @@
 * Supports different physical LED-matrix layouts (column or row major, zig-zag or progressive alignment (see [Adarfruits NeoMatrix Documentation](https://learn.adafruit.com/adafruit-neopixel-uberguide/neomatrix-library))
   * you can also use your LED-matrix rotated or upside down
 * Emulates true RGB colors (RGB colors as you would see them on a computer screen)
-* Supports GRB,RGB & GRBW LEDs
+* Supports GRB, RGB & GRBW LEDs
 * RGB and HSL colors
 * you can retrieve a LEDs set RGB value
 * supports LED Strips (it's just a matrix with a height of 1)
